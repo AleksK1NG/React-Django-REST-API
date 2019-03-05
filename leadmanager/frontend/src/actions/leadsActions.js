@@ -1,4 +1,4 @@
-import { DELETE_LEAD, GET_LEADS } from './actionTypes'
+import { ADD_LEAD, DELETE_LEAD, GET_LEADS } from './actionTypes'
 import axios from 'axios'
 
 
@@ -24,6 +24,22 @@ export const deleteLead = (id) => (dispatch) => {
       dispatch({
         type: DELETE_LEAD,
         payload: id
+      })
+    })
+    .catch((err) => {
+      console.error(err)
+    })
+}
+
+
+export const addLead = (lead) => (dispatch) => {
+  console.log('add lead', lead)
+  axios
+    .post(`/api/leads/`, lead)
+    .then((res) => {
+      dispatch({
+        type: ADD_LEAD,
+        payload: res.data
       })
     })
     .catch((err) => {
