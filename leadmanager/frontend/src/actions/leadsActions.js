@@ -1,6 +1,5 @@
-import { ADD_LEAD, DELETE_LEAD, GET_LEADS } from './actionTypes'
+import { ADD_LEAD, DELETE_LEAD, GET_ERRORS, GET_LEADS } from './actionTypes'
 import axios from 'axios'
-
 
 export const getLeads = () => (dispatch) => {
   axios
@@ -16,7 +15,6 @@ export const getLeads = () => (dispatch) => {
     })
 }
 
-
 export const deleteLead = (id) => (dispatch) => {
   axios
     .delete(`/api/leads/${id}/`)
@@ -31,7 +29,6 @@ export const deleteLead = (id) => (dispatch) => {
     })
 }
 
-
 export const addLead = (lead) => (dispatch) => {
   console.log('add lead', lead)
   axios
@@ -43,6 +40,14 @@ export const addLead = (lead) => (dispatch) => {
       })
     })
     .catch((err) => {
-      console.error(err)
+      const errors = {
+        msg: err.response.data,
+        status: err.response.status
+      }
+      dispatch({
+        type: GET_ERRORS,
+        payload: errors
+      })
+      console.error(errors)
     })
 }
