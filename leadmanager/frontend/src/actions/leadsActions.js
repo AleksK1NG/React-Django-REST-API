@@ -1,17 +1,6 @@
-import { GET_LEADS } from './actionTypes'
+import { DELETE_LEAD, GET_LEADS } from './actionTypes'
 import axios from 'axios'
 
-// export const getLeads = () => async (dispatch) => {
-//   try {
-//     const res = await axios.get('/api/leads')
-//     dispatch({
-//       type: GET_LEADS,
-//       payload: res.data
-//     })
-//   } catch (e) {
-//     console.error(e)
-//   }
-// }
 
 export const getLeads = () => (dispatch) => {
   axios
@@ -20,6 +9,21 @@ export const getLeads = () => (dispatch) => {
       dispatch({
         type: GET_LEADS,
         payload: res.data
+      })
+    })
+    .catch((err) => {
+      console.error(err)
+    })
+}
+
+
+export const deleteLead = (id) => (dispatch) => {
+  axios
+    .delete(`/api/leads/${id}/`)
+    .then((res) => {
+      dispatch({
+        type: DELETE_LEAD,
+        payload: id
       })
     })
     .catch((err) => {

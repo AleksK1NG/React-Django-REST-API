@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { getLeads } from '../../../actions/leadsActions'
+import { getLeads, deleteLead } from '../../../actions/leadsActions'
 
 const Leads = (props) => {
   useEffect(() => {
@@ -29,7 +29,7 @@ const Leads = (props) => {
               <td>{lead.message}</td>
               <td>
                 <button
-                  onClick={() => console.log('delete', lead.id)}
+                  onClick={() => props.deleteLead(lead.id)}
                   className="btn btn-danger btn-sm"
                 >
                   {' '}
@@ -48,5 +48,5 @@ export default connect(
   (state) => ({
     leads: state.leads.leads
   }),
-  { getLeads }
+  { getLeads, deleteLead }
 )(Leads)
