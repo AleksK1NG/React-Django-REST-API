@@ -1,9 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 const Header = (props) => {
   return (
-    <div>
-      <nav className="navbar navbar-expand-sm navbar-light bg-light">
+    <nav className="navbar navbar-expand-sm navbar-light bg-light">
+      <div className="container">
         <button
           className="navbar-toggler"
           type="button"
@@ -17,13 +19,15 @@ const Header = (props) => {
         </button>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
           <a className="navbar-brand" href="#">
-            Lead Manager
+            Users Manager
           </a>
-          <ul className="navbar-nav mr-auto mt-2 mt-lg-0" />
         </div>
-      </nav>
-    </div>
+      </div>
+    </nav>
   )
 }
 
-export default Header
+export default connect(
+  (state) => ({}),
+  {}
+)(Header)
