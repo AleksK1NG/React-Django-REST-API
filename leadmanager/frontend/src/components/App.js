@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -11,6 +11,7 @@ import Alerts from './layout/Alerts/alerts'
 import Login from './accounts/login/login'
 import Register from './accounts/register/register'
 import PrivateRoute from './hoc/private/private-route'
+import { loadUser } from '../actions/authActions'
 
 /*
  * Alert Options
@@ -21,6 +22,11 @@ const alertOptions = {
 }
 
 const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser())
+    console.log('init')
+  }, [])
+
   return (
     <Provider store={store}>
       <AlertProvider template={AlertTemplate} {...alertOptions}>
