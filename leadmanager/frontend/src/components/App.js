@@ -10,6 +10,7 @@ import AlertTemplate from 'react-alert-template-basic'
 import Alerts from './layout/Alerts/alerts'
 import Login from './accounts/login/login'
 import Register from './accounts/register/register'
+import PrivateRoute from './hoc/private/private-route'
 
 /*
  * Alert Options
@@ -29,7 +30,7 @@ const App = () => {
             <Alerts />
             <div className="container">
               <Switch>
-                <Route exact path="/" component={Dashboard} />
+                <PrivateRoute exact path="/" component={Dashboard} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
               </Switch>
