@@ -1,6 +1,6 @@
 import { ADD_LEAD, DELETE_LEAD, GET_ERRORS, GET_LEADS } from './actionTypes'
 import axios from 'axios'
-import { createMessage } from './messagesActions'
+import { createMessage, returnErrors } from './messagesActions'
 
 export const getLeads = () => (dispatch) => {
   axios
@@ -11,16 +11,16 @@ export const getLeads = () => (dispatch) => {
         payload: res.data
       })
     })
-    .catch((err) => {
-      console.error(err)
-    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    )
 }
 
 export const deleteLead = (id) => (dispatch) => {
   axios
     .delete(`/api/leads/${id}/`)
     .then((res) => {
-      dispatch(createMessage({ deleteLead: "Lead Deleted" }));
+      dispatch(createMessage({ deleteLead: 'Lead Deleted' }))
       dispatch({
         type: DELETE_LEAD,
         payload: id
@@ -30,6 +30,30 @@ export const deleteLead = (id) => (dispatch) => {
       console.error(err)
     })
 }
+
+// export const addLead = (lead) => (dispatch) => {
+//   console.log('add lead', lead)
+//   axios
+//     .post(`/api/leads/`, lead)
+//     .then((res) => {
+//       dispatch(createMessage({ addLead: 'Lead Added' }))
+//       dispatch({
+//         type: ADD_LEAD,
+//         payload: res.data
+//       })
+//     })
+//     .catch((err) => {
+//       const errors = {
+//         msg: err.response.data,
+//         status: err.response.status
+//       }
+//       dispatch({
+//         type: GET_ERRORS,
+//         payload: errors
+//       })
+//       console.error(errors)
+//     })
+// }
 
 export const addLead = (lead) => (dispatch) => {
   console.log('add lead', lead)
@@ -42,15 +66,7 @@ export const addLead = (lead) => (dispatch) => {
         payload: res.data
       })
     })
-    .catch((err) => {
-      const errors = {
-        msg: err.response.data,
-        status: err.response.status
-      }
-      dispatch({
-        type: GET_ERRORS,
-        payload: errors
-      })
-      console.error(errors)
-    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    )
 }
