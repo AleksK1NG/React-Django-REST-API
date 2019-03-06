@@ -14,14 +14,19 @@ const Alerts = (props) => {
       alert.error(`Message: ${props.error.msg.message.join()}`)
 
     // alert.show('Oh look, an alert!')
-  }, [props.error])
+    if (props.message) {
+      if (props.message.deleteLead) alert.success(props.message.deleteLead)
+      if (props.message.addLead) alert.success(props.message.addLead)
+    }
+  }, [props.error, props.message])
 
   return <React.Fragment />
 }
 
 export default connect(
   (state) => ({
-    error: state.errors
+    error: state.errors,
+    message: state.messages
   }),
   {}
 )(Alerts)
