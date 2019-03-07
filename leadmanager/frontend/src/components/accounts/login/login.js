@@ -2,16 +2,19 @@ import React, { useState } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { login } from '../../../actions/authActions'
+import { useAlert } from 'react-alert'
 
 const Login = (props) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const alert = useAlert()
 
   const onSubmit = (e) => {
     e.preventDefault()
 
     props.login(username, password)
 
+    alert.success('Success login ! :)')
     setUsername('')
     setPassword('')
   }

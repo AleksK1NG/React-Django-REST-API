@@ -12,11 +12,15 @@ const Alerts = (props) => {
       alert.error(`Email: ${props.error.msg.email.join()}`)
     if (props.error.msg.message)
       alert.error(`Message: ${props.error.msg.message.join()}`)
-
+    if (props.error.msg.non_field_errors)
+      alert.error(props.error.msg.non_field_errors.join())
+    if (props.error.msg.username) alert.error(props.error.msg.username.join());
     // alert.show('Oh look, an alert!')
     if (props.message) {
       if (props.message.deleteLead) alert.success(props.message.deleteLead)
       if (props.message.addLead) alert.success(props.message.addLead)
+      if (props.message.passwordNotMatch)
+        alert.error(props.message.passwordNotMatch)
     }
   }, [props.error, props.message])
 
