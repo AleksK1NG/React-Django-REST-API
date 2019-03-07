@@ -8,29 +8,14 @@ import {
   USER_LOADING
 } from './actionTypes'
 import { returnErrors } from './messagesActions'
+import { tokenConfig } from '../utils/auth-helpers'
 
 /*
  * Load User
  * */
 export const loadUser = () => (dispatch, getState) => {
-  // Load user
-  dispatch({ type: USER_LOADING })
-
-  // Get token from auth state
-  const token = getState().auth.token
-  // Set Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-  // If token, add to headers config
-  if (token) {
-    config.headers['Authorization'] = `Token ${token}`
-  }
-
   axios
-    .get('/api/auth/user', config)
+    .get('/api/auth/user', tokenConfig(getState))
     .then((res) => {
       dispatch({ type: USER_LOADED, payload: res.data })
     })
@@ -70,23 +55,8 @@ export const login = (username, password) => (dispatch) => {
  * Logout
  * */
 export const logout = () => (dispatch, getState) => {
-  // Get token from state
-  const token = getState().auth.token
-
-  // Set Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-
-  // If token, add to headers config
-  if (token) {
-    config.headers['Authorization'] = `Token ${token}`
-  }
-
   axios
-    .post('/api/auth/logout', null, config)
+    .post('/api/auth/logout', null, tokenConfig(getState))
     .then((res) => {
       dispatch({ type: LOGOUT_SUCCESS })
     })
