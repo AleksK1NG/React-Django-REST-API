@@ -4,6 +4,8 @@ import {
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
+  REGISTER_FAIL,
+  REGISTER_SUCCESS,
   USER_LOADED,
   USER_LOADING
 } from './actionTypes'
@@ -62,5 +64,28 @@ export const logout = () => (dispatch, getState) => {
     })
     .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status))
+    })
+}
+
+/*
+ * Register
+ * */
+export const register = ({ username, password, email }) => (dispatch) => {
+  // Set Headers
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  // Request Body
+  const body = JSON.stringify({ username, email, password })
+  axios
+    .post('/api/auth/register', body, config)
+    .then((res) => {
+      dispatch({ type: REGISTER_SUCCESS, payload: res.data })
+    })
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status))
+      dispatch({ type: REGISTER_FAIL })
     })
 }

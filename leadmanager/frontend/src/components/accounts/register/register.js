@@ -1,27 +1,33 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
-import { useAlert } from 'react-alert'
+import { register } from '../../../actions/authActions'
+import { createMessage } from '../../../actions/messagesActions'
 
 const Register = (props) => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')
-  const alert = useAlert()
 
   const onSubmit = (e) => {
     e.preventDefault()
 
-    const newUser = { username, email, password }
-    console.log('new user => ', newUser)
+    if (password !== password2) {
+      props.createMessage({ passwordNotMatch: 'Passwords dont match !' })
+    } else {
+      const newUser = { username, password, email }
+      props.register(newUser)
 
-    alert.success(' Register Success ! :)')
+      setUsername('')
+      setEmail('')
+      setPassword('')
+      setPassword2('')
+    }
+  }
 
-    setUsername('')
-    setEmail('')
-    setPassword('')
-    setPassword2('')
+  if (props.isAuthenticated) {
+    return <Redirect to="/" />
   }
 
   return (
@@ -84,6 +90,8 @@ const Register = (props) => {
 }
 
 export default connect(
-  (state) => ({}),
-  {}
+  (state) => ({
+    isAuthenticated: state.auth.isAuthenticated
+  }),
+  { register, createMessage }
 )(Register)
