@@ -24,7 +24,6 @@ const alertOptions = {
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser())
-    console.log('init')
   }, [])
 
   return (

@@ -31,29 +31,6 @@ export const deleteLead = (id) => (dispatch) => {
     })
 }
 
-// export const addLead = (lead) => (dispatch) => {
-//   console.log('add lead', lead)
-//   axios
-//     .post(`/api/leads/`, lead)
-//     .then((res) => {
-//       dispatch(createMessage({ addLead: 'Lead Added' }))
-//       dispatch({
-//         type: ADD_LEAD,
-//         payload: res.data
-//       })
-//     })
-//     .catch((err) => {
-//       const errors = {
-//         msg: err.response.data,
-//         status: err.response.status
-//       }
-//       dispatch({
-//         type: GET_ERRORS,
-//         payload: errors
-//       })
-//       console.error(errors)
-//     })
-// }
 
 export const addLead = (lead) => (dispatch) => {
   console.log('add lead', lead)

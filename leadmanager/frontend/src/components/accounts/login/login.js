@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { login } from '../../../actions/authActions'
 
 const Login = (props) => {
   const [username, setUsername] = useState('')
@@ -8,6 +9,15 @@ const Login = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault()
+
+    props.login(username, password)
+
+    setUsername('')
+    setPassword('')
+  }
+
+  if (props.isAuthenticated) {
+    return <Redirect to="/" />
   }
 
   return (
@@ -52,6 +62,8 @@ const Login = (props) => {
 }
 
 export default connect(
-  (state) => ({}),
-  {}
+  (state) => ({
+    isAuthenticated: state.auth.isAuthenticated
+  }),
+  { login }
 )(Login)

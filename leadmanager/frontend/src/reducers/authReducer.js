@@ -1,4 +1,10 @@
-import { AUTH_ERROR, USER_LOADED, USER_LOADING } from '../actions/actionTypes'
+import {
+  AUTH_ERROR,
+  LOGIN_FAIL,
+  LOGIN_SUCCESS,
+  USER_LOADED,
+  USER_LOADING
+} from '../actions/actionTypes'
 
 const initialState = {
   token: localStorage.getItem('token'),
@@ -21,7 +27,17 @@ export default function reducer(state = initialState, action) {
         user: payload
       }
 
+    case LOGIN_SUCCESS:
+      localStorage.setItem('token', payload.token)
+      return {
+        ...state,
+        ...payload,
+        isAuthenticated: true,
+        isLoading: false
+      }
+
     case AUTH_ERROR:
+    case LOGIN_FAIL:
       localStorage.removeItem('token')
       return {
         ...state,
