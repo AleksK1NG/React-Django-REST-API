@@ -3,6 +3,7 @@ import {
   AUTH_ERROR,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
+  LOGOUT_SUCCESS,
   USER_LOADED,
   USER_LOADING
 } from './actionTypes'
@@ -49,7 +50,7 @@ export const login = (username, password) => (dispatch) => {
   // Set Headers
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   }
   // Request Body
@@ -65,4 +66,31 @@ export const login = (username, password) => (dispatch) => {
     })
 }
 
+/*
+ * Logout
+ * */
+export const logout = () => (dispatch, getState) => {
+  // Get token from state
+  const token = getState().auth.token
 
+  // Set Headers
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+
+  // If token, add to headers config
+  if (token) {
+    config.headers['Authorization'] = `Token ${token}`
+  }
+
+  axios
+    .post('/api/auth/logout', null, config)
+    .then((res) => {
+      dispatch({ type: LOGOUT_SUCCESS })
+    })
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status))
+    })
+}

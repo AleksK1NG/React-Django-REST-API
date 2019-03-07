@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { logout } from '../../../actions/authActions'
 
 const Header = (props) => {
   const authLinks = (
@@ -60,6 +61,9 @@ const Header = (props) => {
 }
 
 export default connect(
-  (state) => ({}),
-  {}
+  (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user
+  }),
+  { logout }
 )(Header)
